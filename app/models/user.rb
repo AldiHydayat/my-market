@@ -4,10 +4,25 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  before_create :convert_address_to_html
+  before_create :titleize_name
+  before_update :convert_address_to_html
+  before_update :titleize_name
+
   has_many :carts
   has_many :orders
-  enum status: [:admin, :buyer], _default: "buyer"
+  enum level: [:admin, :buyer], _default: "buyer"
 
   validates :name, :phone_number, :address, :level, presence: true
   validates :phone_number, numericality: true
+
+  private
+
+  def convert_address_to_html
+    self.address = address.gsub(/\n/, "<br>")
+  end
+
+  def titleize_name
+    self.name = name.titleize
+  end
 end

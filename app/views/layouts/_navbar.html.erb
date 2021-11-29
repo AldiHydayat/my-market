@@ -9,8 +9,12 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
+        <li class="nav-item">
+          <%= (link_to show_user, edit_user_registration_path, class: "nav-link") if user_signed_in? %>
+        </li>
       </ul>
       <% if user_signed_in? %>
+        <%= link_to 'Keluar', destroy_user_session_path, method: :delete, class: "btn btn-outline-primary rounded-pill" %>
       <% else %>
         <%= link_to 'Daftar', new_user_registration_path, class: "btn btn-outline-primary rounded-pill" %>
         <%= link_to 'Masuk', new_user_session_path, class: "btn btn-primary rounded-pill ms-2" %>
