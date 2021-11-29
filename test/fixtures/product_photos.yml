@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_id: 1
+  photo: MyString
+  is_primary: false
+
+two:
+  product_id: 1
+  photo: MyString
+  is_primary: false
