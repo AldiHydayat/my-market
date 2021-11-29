@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_29_020911) do
+ActiveRecord::Schema.define(version: 2021_11_29_021237) do
+
+  create_table "carts", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "categories", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -21,6 +29,14 @@ ActiveRecord::Schema.define(version: 2021_11_29_020911) do
   create_table "product_categories", charset: "utf8mb4", force: :cascade do |t|
     t.integer "product_id"
     t.integer "category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "product_photos", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "product_id"
+    t.string "photo"
+    t.boolean "is_primary"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
