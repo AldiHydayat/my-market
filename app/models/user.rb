@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :carts
   has_many :orders
-  enum status: [:admin, :buyer]
+  enum status: [:admin, :buyer], _default: "buyer"
 
   validates :name, :phone_number, :address, :level, presence: true
   validates :phone_number, numericality: true
