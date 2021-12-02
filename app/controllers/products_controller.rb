@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
-  before_action :admin_only
-  before_action :set_product, only: %i[edit update destroy active_toggle]
+  before_action :admin_only, only: %i[index new create edit update destroy active_toggle]
+  before_action :set_product, only: %i[show edit update destroy active_toggle]
 
   def index
     @products = Product.all
@@ -21,6 +21,9 @@ class ProductsController < ApplicationController
     else
       render "new"
     end
+  end
+
+  def show
   end
 
   def edit
