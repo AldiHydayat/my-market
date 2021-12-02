@@ -1,0 +1,20 @@
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each.with_index do |category, i| %>
+        <tr>
+          <th scope="row"><%= i+1 %></th>
+          <td><%= category.name %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
