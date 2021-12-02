@@ -12,7 +12,10 @@
         <tr>
           <th scope="row"><%= i+1 %></th>
           <td><%= category.name %></td>
-          <td></td>
+          <td>
+            <%= link_to 'Edit', edit_category_path(category), class: "badge rounded-pill bg-success text-decoration-none link-light" %>
+            <%= link_to 'Delete', category_path(category), class: "badge rounded-pill bg-danger text-decoration-none link-light", method: :delete, data: { confirm: "Are you sure?" } %>
+          </td>
         </tr>
       <% end %>
     </tbody>
