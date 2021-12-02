@@ -15,6 +15,8 @@ class Product < ApplicationRecord
   validates_associated :product_photos
   validates_associated :product_categories
 
+  scope :search_product, ->(keyword) { where("name like ?", "%#{keyword}%") }
+
   def is_active_toggle
     if is_active
       self.is_active = false

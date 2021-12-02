@@ -10,5 +10,13 @@
     </ul>
   </li>
 <% else %>
-  buyer
+  <li class="nav-item">
+    <%= link_to 'Cart', root_path, class: "nav-link" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Order', root_path, class: "nav-link" %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Wishlist', root_path, class: "nav-link" %>
+  </li>
 <% end %>

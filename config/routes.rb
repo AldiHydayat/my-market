@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "home#index"
   devise_for :users, controllers: { registrations: "user/registrations" }
 
+  get "search" => "products#search"
+
   resources :products, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
     member do
       put "active" => "products#active_toggle"

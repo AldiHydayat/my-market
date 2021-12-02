@@ -1,0 +1,5 @@
+<div class="container">
+  <% @products.each do |product| %>
+    <%= render 'card_product', product: product %>
+  <% end %>
+</div>

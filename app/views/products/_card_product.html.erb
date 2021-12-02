@@ -1,0 +1,8 @@
+<div class="card" style="width: 18rem;">
+  <%= image_tag(product.product_photos.first.photo_url) %>
+  <div class="card-body">
+    <h5 class="card-title"><%= product.name %></h5>
+    <p class="card-text"><%= number_to_currency(product.price, unit: "Rp. ") %></p>
+    <%= link_to 'Lihat Detail', product_path(product), class: "btn btn-primary" %>
+  </div>
+</div>
