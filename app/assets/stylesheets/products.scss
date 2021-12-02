@@ -1,0 +1,15 @@
+// Place all the styles related to the products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.img-preview {
+    width: 150px;
+    height: 150px;
+    border: 2px solid hsl(216, 100%, 66%);
+    cursor: pointer;
+
+    &:hover {
+    border: 2px solid #0d6efd;
+    }
+
+    // #0d6efd
+}

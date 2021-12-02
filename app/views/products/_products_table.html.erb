@@ -1,0 +1,28 @@
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Sold</th>
+        <th scope="col">is Active</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each.with_index do |product, i| %>
+        <tr>
+          <th scope="row"><%= i+1 %></th>
+          <td><%= product.name %></td>
+          <td><%= product.price %></td>
+          <td><%= product.stock %></td>
+          <td><%= product.sold %></td>
+          <td><%= product.is_active %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

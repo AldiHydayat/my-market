@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h3>Products</h3>
+    <%= link_to 'New Product', new_product_path, class: "btn btn-success" %>
+  </div>
+  <%= render 'products_table' %>
+</div>

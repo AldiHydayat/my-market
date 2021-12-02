@@ -1,0 +1,14 @@
+<% if current_user.level == "admin" %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Data
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li><%= link_to 'Product', products_path, class: "dropdown-item" %></li>
+      <li><a href="#" class="dropdown-item">Category</a></li>
+      <li><a href="#" class="dropdown-item">Order</a></li>
+    </ul>
+  </li>
+<% else %>
+  buyer
+<% end %>
