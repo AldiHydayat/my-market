@@ -19,8 +19,16 @@
           <td><%= product.price %></td>
           <td><%= product.stock %></td>
           <td><%= product.sold %></td>
-          <td><%= product.is_active %></td>
-          <td></td>
+          <td>
+            <span class="badge rounded-pill <%= product.is_active ? "bg-success" : "bg-danger" %>">
+              <%= show_is_active(product.is_active) %>
+            </span>
+          </td>
+          <td>
+            <%= link_to (product.is_active ? "Inactive Product" : "Activate Product" ), active_product_path(product), class: "badge rounded-pill bg-warning text-decoration-none link-light", method: :put, data: { confirm: "Are you sure?" } %>
+            <%= link_to 'Edit', edit_product_path(product), class: "badge rounded-pill bg-success text-decoration-none link-light" %>
+            <%= link_to 'Delete', product_path(product), class: "badge rounded-pill bg-danger text-decoration-none link-light", method: :delete, data: { confirm: "Are you sure?" } %>
+          </td>
         </tr>
       <% end %>
     </tbody>

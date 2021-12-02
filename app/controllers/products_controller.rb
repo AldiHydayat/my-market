@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :admin_only
+  before_action :set_product, only: %i[edit update destroy active_toggle]
 
   def index
     @products = Product.all
@@ -22,6 +23,25 @@ class ProductsController < ApplicationController
     end
   end
 
+  def edit
+    @categories = Category.all
+  end
+
+  def update
+  end
+
+  def destroy
+    @product.destroy
+
+    redirect_to products_path
+  end
+
+  def active_toggle
+    @product.is_active_toggle
+
+    redirect_to products_path
+  end
+
   private
 
   def product_params
@@ -32,5 +52,9 @@ class ProductsController < ApplicationController
     if !user_signed_in? && current_user.level != :admin
       redirect_to root_path
     end
+  end
+
+  def set_product
+    @product = Product.friendly.find(params[:id])
   end
 end
