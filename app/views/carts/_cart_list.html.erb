@@ -1,0 +1,30 @@
+<%= form_for @order, url: checkout_orders_path do |f| %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <% @carts.each do |cart| %>
+    <div class="row">
+      <div class="col-3">
+        <%= image_tag cart.product.product_photos.first.photo_url %>
+      </div>
+      <div class="col">
+        <div class="row">
+          <%= f.fields_for :order_details, OrderDetail.new do |sub_f| %>
+            <%= sub_f.hidden_field :product_id, value: cart.product_id %>
+            <%= sub_f.hidden_field :product_summary, value: cart.product.slice(:id, :name, :price, :description).as_json %>
+            <%= sub_f.label :quantity, "Quantity", class: "form-label" %>
+            <%= sub_f.number_field :quantity, value: cart.quantity, class: "form-control", min: 1, max: cart.product.stock %>
+          <% end %>
+        </div>
+        <div class="row">
+          <p>Harga Per Item: <%= number_to_currency(cart.product.price, unit: "Rp. ") %></p>
+        </div>
+        <div class="row">
+          <div class="col">
+            <%= link_to 'Lihat Produk', product_path(cart.product), class: "badge rounded-pill bg-success text-decoration-none link-light" %>
+            <%= link_to 'Hapus', cart_path(cart), class: "badge rounded-pill bg-danger text-decoration-none link-light", data: { confirm: "Are you sure?" }, method: :delete %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>

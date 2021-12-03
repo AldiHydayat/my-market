@@ -10,6 +10,11 @@
   </head>
   <body>
     <%= render 'layouts/navbar' %>
+    <% if flash[:notice].present? && flash[:color].present? %>
+      <div class="alert alert-<%= flash[:color] %>" role="alert">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

@@ -1,8 +1,29 @@
 class Order < ApplicationRecord
+  include AASM
+
   belongs_to :user
-  has_many :order_details
+  has_many :order_details, dependent: :destroy
   enum status: [:wait_for_confirmation, :processing, :shipping, :order_successful]
 
-  validates :user_id, :status, :total_price, presence: true
+  validates :user_id, :total_price, presence: true
   validates :total_price, numericality: true
+
+  accepts_nested_attributes_for :order_details
+
+  validates_associated :order_details
+
+  aasm column: :status, enum: true do
+    state :wait_for_confirmation, initial: true
+    state :processing
+    state :shipping
+    state :order_successful
+  end
+
+  def set_total_price
+    total_price = 0
+    order_details.each do |order_detail|
+      total_price = total_price + (order_detail.quantity * order_detail.product.price)
+    end
+    self.total_price = total_price
+  end
 end

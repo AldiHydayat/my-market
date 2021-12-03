@@ -24,6 +24,7 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @cart = Cart.new
   end
 
   def edit
@@ -48,7 +49,7 @@ class ProductsController < ApplicationController
   def search
     redirect_to root_path if params[:keyword].blank?
 
-    @products = Product.search_product(params[:keyword])
+    @products = Product.search_products(params[:keyword])
   end
 
   private

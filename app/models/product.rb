@@ -4,7 +4,7 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
   has_many :product_photos, dependent: :destroy
   has_many :categories, through: :product_categories
-  accepts_nested_attributes_for :product_categories, :product_photos, reject_if: :all_blank
+  accepts_nested_attributes_for :product_categories, :product_photos, :carts, reject_if: :all_blank
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -15,7 +15,8 @@ class Product < ApplicationRecord
   validates_associated :product_photos
   validates_associated :product_categories
 
-  scope :search_product, ->(keyword) { where("name like ?", "%#{keyword}%") }
+  scope :search_products, ->(keyword) { where("name like ? and is_active = ?", "%#{keyword}%", true) }
+  scope :active_products, -> { where(is_active: true) }
 
   def is_active_toggle
     if is_active

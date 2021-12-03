@@ -11,6 +11,9 @@
     <h3><%= number_to_currency(@product.price, unit: "Rp. ") %></h3>
   </div>
   <div class="row">
+    <p> Stock: <%= @product.stock %></p>
+  </div>
+  <div class="row">
     <h4>Description:</h4>
     <%= simple_format(@product.description) %>
   </div>
@@ -21,5 +24,40 @@
         <%= category.name %>
       <% end %>
     </p>
+  </div>
+  <% if @product.stock == 0 %>
+    <div class="row">
+      <p class="text-danger">Stock habis</p>
+    </div>
+  <% end %>
+  <div class="row">
+    <% if user_signed_in? && current_user.level == "buyer" && @product.stock != 0 %>
+      <button type="button" class="btn btn-warning col-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add To Cart
+      </button>
+    <% end %>
+  </div>
+  <!-- Button trigger modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><%= @product.name %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <%= form_for @cart do |f| %>
+          <div class="modal-body">
+            <%= f.hidden_field :product_id, value: @product.id %>
+            <%= f.label :quantity, class: "form-label" %>
+            <%= f.number_field :quantity, value: 1, class: "form-control", min: 1, max: @product.stock %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <%= f.submit "Submit", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
