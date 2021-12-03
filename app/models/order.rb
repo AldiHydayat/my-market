@@ -12,6 +12,8 @@ class Order < ApplicationRecord
 
   validates_associated :order_details
 
+  scope :get_my_order, ->(user) { where(user: user) }
+
   aasm column: :status, enum: true do
     state :wait_for_confirmation, initial: true
     state :processing

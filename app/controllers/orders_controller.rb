@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :buyer_only, only: %i[create my_order]
+  before_action :buyer_only, only: %i[create my_order checkout my_order]
+  before_action :set_order, only: %i[summary]
 
   def checkout
     @order = Order.new(order_params)
@@ -19,6 +20,7 @@ class OrdersController < ApplicationController
     @order.total_price = params[:order][:total_price]
 
     if @order.save
+      OrderMailer.with(order: @order).new_order.deliver_later
       Cart.destroy_my_cart(current_user)
       flash[:notice] = "Order Berhasil"
       flash[:color] = "success"
@@ -30,10 +32,14 @@ class OrdersController < ApplicationController
     end
   end
 
+  def my_order
+    @orders = Order.get_my_order(current_user)
+  end
+
   private
 
   def order_params
-    params.require(:order).permit(:user_id, :status, :order_details_attributes => [:product_id, :quantity, :product_summary])
+    params.require(:order).permit(:user_id, :status, :order_details_attributes => [:product_id, :quantity])
   end
 
   private
@@ -45,5 +51,9 @@ class OrdersController < ApplicationController
 
       redirect_back(fallback_location: root_path)
     end
+  end
+
+  def set_order
+    @order = Order.find(params[:id])
   end
 end

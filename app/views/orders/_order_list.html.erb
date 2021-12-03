@@ -1,30 +1,22 @@
-<div class="container">
-  <div class="row">
-    <h3 class="text-center">Checkout</h3>
+<% @orders.each do |order| %>
+  <div class="d-flex align-items-center">
+    <%= order.created_at.to_time.strftime('%B %e, %Y') %>
+    <span class="badge rounded-pill bg-warning text-dark"><%= order.status %></span>
   </div>
-  <%= form_for @order do |f| %>
-    <%= f.hidden_field :user_id %>
-    <%= f.hidden_field :total_price %>
-    <% @order.order_details.each do |od| %>
-      <%= f.fields_for :order_details, od do |sub_f| %>
-        <%= sub_f.hidden_field :product_id %>
-        <%= sub_f.hidden_field :product_summary %>
-        <%= sub_f.hidden_field :quantity %>
-      <% end %>
-      <div class="row">
-        <div class="col">
-          <div class="row">
-            <p>
-              <%= od.product.name %><br>
-              Price Per Item: <%= number_to_currency(od.product.price, unit: "Rp. ") %><br>
-              Quantity: <%= od.quantity %></p>
-          </div>
+  <% order.order_details.each do |od| %>
+    <div class="jumbotron">
+      <div class="d-flex align-items-center">
+        <p class="lead">
+          <%= image_tag od.product.product_photos.first.photo_url %>
+        </p>
+        <div class="ms-3">
+          <p class="fw-bold"><%= od.product.name %></p>
+          <p><%= od.quantity %> barang x <%= number_to_currency(od.product.price, unit: "Rp. ") %></p>
+          <%= link_to 'Lihat', summary_path(od) %>
         </div>
       </div>
-    <% end %>
-    <hr>
-    <p>Total Price: <%= number_to_currency(@order.total_price, unit: "Rp. ") %></p>
-    <%= link_to 'Back', :back %>
-    <%= f.submit "Checkout", class: "btn btn-primary ms-5" %>
+    </div>
   <% end %>
-</div>
+  <p class="fw-bold">Total: <%= number_to_currency(order.total_price, unit: "Rp. ") %></p>
+  <hr class="my-4">
+<% end %>

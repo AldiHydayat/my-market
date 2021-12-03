@@ -1,5 +1,7 @@
 <div class="container">
   <% @products.each do |product| %>
-    <%= render 'card_product', product: product %>
+    <div class="col-3">
+      <%= render 'card_product', product: product %>
+    </div>
   <% end %>
 </div>

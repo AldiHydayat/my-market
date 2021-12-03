@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <h3 class="text-center">Checkout</h3>
+  </div>
+  <%= form_for @order do |f| %>
+    <%= f.hidden_field :user_id %>
+    <%= f.hidden_field :total_price %>
+    <% @order.order_details.each do |od| %>
+      <%= f.fields_for :order_details, od do |sub_f| %>
+        <%= sub_f.hidden_field :product_id %>
+        <%= sub_f.hidden_field :product_summary %>
+        <%= sub_f.hidden_field :quantity %>
+      <% end %>
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <p>
+              <%= od.product.name %><br>
+              Price Per Item: <%= number_to_currency(od.product.price, unit: "Rp. ") %><br>
+              Quantity: <%= od.quantity %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <p>Total Price: <%= number_to_currency(@order.total_price, unit: "Rp. ") %></p>
+    <%= link_to 'Back', :back %>
+    <%= f.submit "Checkout", class: "btn btn-primary ms-5" %>
+  <% end %>
+</div>
