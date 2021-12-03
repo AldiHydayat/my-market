@@ -29,9 +29,11 @@ class ProductsController < ApplicationController
 
   def edit
     @categories = Category.all
+    @category = Category.new
   end
 
   def update
+    render plain: params.inspect
   end
 
   def destroy
