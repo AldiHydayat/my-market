@@ -40,4 +40,12 @@ class Order < ApplicationRecord
     end
     self.total_price = total_price
   end
+
+  def confirm_order
+    self.process
+    order_details.each do |od|
+      od.product.reduce_stock_and_increase_sold(od.quantity)
+    end
+    save
+  end
 end

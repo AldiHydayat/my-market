@@ -27,4 +27,10 @@ class Product < ApplicationRecord
 
     save
   end
+
+  def reduce_stock_and_increase_sold(quantity)
+    self.stock = stock - quantity
+    self.sold = sold + quantity
+    save
+  end
 end

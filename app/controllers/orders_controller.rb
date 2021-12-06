@@ -38,12 +38,11 @@ class OrdersController < ApplicationController
   end
 
   def my_order
-    @orders = Order.get_my_order(current_user)
+    @orders = Order.get_my_order(current_user).order(status: :asc)
   end
 
   def confirm_order
-    @order.process
-    @order.save
+    @order.confirm_order
 
     OrderMailer.with(order: @order, receiver: @order.user.email).order_confirmed.deliver_later
 
