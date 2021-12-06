@@ -1,0 +1,9 @@
+<% if order.status == "wait_for_confirmation" %>
+  <span class="badge rounded-pill bg-danger text-light">Wait For Confirmation</span>
+<% elsif order.status == "processing" %>
+  <span class="badge rounded-pill bg-warning text-dark">Processing</span>
+<% elsif order.status == "shipping" %>
+  <span class="badge rounded-pill bg-warning text-dark">Shipping</span>
+<% elsif order.status == "order_successful" %>
+  <span class="badge rounded-pill bg-success text-light">Order Successfull</span>
+<% end %>

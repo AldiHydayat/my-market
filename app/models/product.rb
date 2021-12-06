@@ -4,7 +4,7 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
   has_many :product_photos, dependent: :destroy
   has_many :categories, through: :product_categories
-  accepts_nested_attributes_for :product_categories, :product_photos, :carts, reject_if: :all_blank
+  accepts_nested_attributes_for :product_categories, :product_photos, reject_if: :all_blank
 
   extend FriendlyId
   friendly_id :name, use: :slugged

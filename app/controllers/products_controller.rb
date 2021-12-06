@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    render plain: params.inspect
+    render plain: @product.update(edit_product_params)
   end
 
   def destroy
@@ -58,6 +58,10 @@ class ProductsController < ApplicationController
 
   def product_params
     params.require(:product).permit(:name, :description, :price, :stock, :is_active, :product_photos_attributes => [:photo], :product_categories_attributes => [:category_id])
+  end
+
+  def edit_product_params
+    params.require(:product).permit(:name, :description, :price, :stock, :is_active, :product_photos_attributes => [:photo], :product_categories_attributes => [:id, :category_id])
   end
 
   def admin_only

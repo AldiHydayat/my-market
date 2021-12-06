@@ -1,7 +1,11 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :buyer_only, only: %i[create my_order checkout my_order]
-  before_action :set_order, only: %i[summary]
+  before_action :set_order, only: %i[summary confirm_order deliver_order order_succeed]
+
+  def index
+    @orders = Order.order(status: :asc)
+  end
 
   def checkout
     @order = Order.new(order_params)
@@ -20,7 +24,8 @@ class OrdersController < ApplicationController
     @order.total_price = params[:order][:total_price]
 
     if @order.save
-      OrderMailer.with(order: @order).new_order.deliver_later
+      admin = User.find_by(level: "admin").email
+      OrderMailer.with(order: @order, receiver: admin).new_order.deliver_later
       Cart.destroy_my_cart(current_user)
       flash[:notice] = "Order Berhasil"
       flash[:color] = "success"
@@ -34,6 +39,35 @@ class OrdersController < ApplicationController
 
   def my_order
     @orders = Order.get_my_order(current_user)
+  end
+
+  def confirm_order
+    @order.process
+    @order.save
+
+    OrderMailer.with(order: @order, receiver: @order.user.email).order_confirmed.deliver_later
+
+    redirect_to orders_path
+  end
+
+  def deliver_order
+    @order.ship
+    @order.save
+
+    OrderMailer.with(order: @order, receiver: @order.user.email).deliver_order.deliver_later
+
+    redirect_to orders_path
+  end
+
+  def order_succeed
+    @order.succeed
+    @order.save
+
+    admin = User.find_by(level: "admin").slice(:email)
+
+    OrderMailer.with(order: @order, receiver: admin).deliver_order.deliver_later
+
+    redirect_to my_order_orders_path
   end
 
   private
