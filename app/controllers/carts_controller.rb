@@ -9,6 +9,8 @@ class CartsController < ApplicationController
   end
 
   def create
+    # CARI TAHU find_or_initialize BIAR GAK PERLU PAKE KONDISI ADA ATAU GAK ADA
+    # JADI NANTINYA CEK NYA new_record? ATAU BUKAN
     @cart = Cart.find_cart(current_user, params[:cart][:product_id])
 
     if @cart
@@ -20,6 +22,7 @@ class CartsController < ApplicationController
       @cart = Cart.new(cart_params)
       @cart.user = current_user
 
+      # SAVE DI MODEL ATAU DI CONTROLLER
       if @cart.save
         flash[:notice] = "Keranjang telah ditambah"
         flash[:color] = "success"

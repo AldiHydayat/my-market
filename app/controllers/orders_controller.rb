@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
   end
 
   def create
+    # CODE PINDAH KE MODEL PAKE transaction
     @order = Order.new(order_params)
     @order.total_price = params[:order][:total_price]
 

@@ -57,6 +57,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
+    # BUAT JADI MULTILINE
     params.require(:product).permit(:name, :description, :price, :stock, :is_active, :product_photos_attributes => [:photo], :product_categories_attributes => [:category_id])
   end
 

@@ -23,6 +23,7 @@ class CategoriesController < ApplicationController
   end
 
   def update
+    # TIDAK ADA KONDISI GAGAL
     @category.update(category_params)
 
     redirect_to categories_path

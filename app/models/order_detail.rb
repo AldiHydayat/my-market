@@ -12,6 +12,7 @@ class OrderDetail < ApplicationRecord
   private
 
   def set_product_summary
+    # HARUSNYA IMAGE JUGA MASUK YA, JGN RELASI LAGI NANTI PAS MANGGILNYA
     self.product_summary = self.product.slice(:id, :name, :price, :description)
   end
 end
