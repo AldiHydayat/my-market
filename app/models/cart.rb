@@ -8,7 +8,6 @@ class Cart < ApplicationRecord
 
   def add_quantity(quantity)
     self.quantity = self.quantity + quantity
-    save
   end
 
   def self.find_cart(current_user, product_id)
@@ -17,5 +16,13 @@ class Cart < ApplicationRecord
 
   def self.destroy_my_cart(user)
     where(user: user).destroy_all
+  end
+
+  def self.insert_cart(params)
+    cart = find_or_initialize_by(params)
+    if cart.persisted?
+      cart.add_quantity(params[:quantity].to_i)
+    end
+    cart.save
   end
 end

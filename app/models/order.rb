@@ -33,6 +33,15 @@ class Order < ApplicationRecord
     end
   end
 
+  def create_order
+    ActiveRecord::Base.transaction do
+      self.save
+      admin = User.find_by(level: "admin").email
+      OrderMailer.with(order: self, receiver: admin).new_order.deliver_later
+      Cart.destroy_my_cart(self.user)
+    end
+  end
+
   def set_total_price
     total_price = 0
     order_details.each do |order_detail|

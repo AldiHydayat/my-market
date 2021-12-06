@@ -12,6 +12,11 @@ class OrderDetail < ApplicationRecord
   private
 
   def set_product_summary
-    self.product_summary = self.product.slice(:id, :name, :price, :description)
+    hash = {}
+    hash.merge!(product.slice(:id, :name, :price, :description))
+    hash["photos"] = product.product_photos.map do |pp|
+      pp.photo_url
+    end
+    self.product_summary = hash
   end
 end

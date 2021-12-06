@@ -2,6 +2,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <div>
       <%= order.created_at.to_time.strftime('%B %e, %Y') %>
+      <%= order.user.name %>
       <%= render "order_status", order: order %>
     </div>
     <div>

@@ -48,6 +48,7 @@
         </div>
         <%= form_for @cart do |f| %>
           <div class="modal-body">
+            <%= f.hidden_field :user_id, value: current_user.id %>
             <%= f.hidden_field :product_id, value: @product.id %>
             <%= f.label :quantity, class: "form-label" %>
             <%= f.number_field :quantity, value: 1, class: "form-control", min: 1, max: @product.stock %>

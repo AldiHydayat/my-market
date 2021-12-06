@@ -20,13 +20,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(order_params)
-    @order.total_price = params[:order][:total_price]
+    @order = Order.new(create_order_params)
 
-    if @order.save
-      admin = User.find_by(level: "admin").email
-      OrderMailer.with(order: @order, receiver: admin).new_order.deliver_later
-      Cart.destroy_my_cart(current_user)
+    if @order.create_order
       flash[:notice] = "Order Berhasil"
       flash[:color] = "success"
       redirect_to root_path
@@ -75,7 +71,9 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:user_id, :status, :order_details_attributes => [:product_id, :quantity])
   end
 
-  private
+  def create_order_params
+    params.require(:order).permit(:user_id, :status, :total_price, :order_details_attributes => [:product_id, :quantity])
+  end
 
   def buyer_only
     if !user_signed_in? && current_user.level != "buyer"

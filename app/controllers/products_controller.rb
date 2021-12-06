@@ -33,7 +33,15 @@ class ProductsController < ApplicationController
   end
 
   def update
-    render plain: @product.update(edit_product_params)
+    if @product.update(edit_product_params)
+      flash[:notice] = "Edit Product successful"
+      flash[:color] = "success"
+      redirect_to products_path
+    else
+      flash[:notice] = "Edit Product Failed"
+      flash[:color] = "danger"
+      redirect_to product_path(@product)
+    end
   end
 
   def destroy
@@ -57,11 +65,17 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :is_active, :product_photos_attributes => [:photo], :product_categories_attributes => [:category_id])
+    params.require(:product)
+      .permit(:name, :description, :price, :stock, :is_active,
+              :product_photos_attributes => [:photo],
+              :product_categories_attributes => [:category_id])
   end
 
   def edit_product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :is_active, :product_photos_attributes => [:photo], :product_categories_attributes => [:id, :category_id])
+    params.require(:product)
+      .permit(:name, :description, :price, :stock, :is_active,
+              :product_photos_attributes => [:photo],
+              :product_categories_attributes => [:id, :category_id])
   end
 
   def admin_only

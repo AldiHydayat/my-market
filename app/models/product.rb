@@ -12,8 +12,8 @@ class Product < ApplicationRecord
   validates :name, :price, :description, :stock, :sold, presence: true
   validates :price, :stock, :sold, numericality: true
 
-  validates_associated :product_photos
-  validates_associated :product_categories
+  validates_presence_of :product_photos
+  validates_presence_of :product_categories
 
   scope :search_products, ->(keyword) { where("name like ? and is_active = ?", "%#{keyword}%", true) }
   scope :active_products, -> { where(is_active: true) }

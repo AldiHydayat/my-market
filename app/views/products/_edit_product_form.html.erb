@@ -22,8 +22,8 @@
   <div class="mb-3">
     <%= label_tag "Category: " %>
     <% @categories.each do |category| %>
-      <%= f.fields_for :product_categories do |sub_f| %>
-        <%= sub_f.check_box :category_id, {}, category.id, false %>
+      <%= f.fields_for :product_categories, ProductCategory.find_or_initialize_by(category_id: category.id) do |sub_f| %>
+        <%= sub_f.check_box :category_id, { checked: !sub_f.object.new_record? }, category.id, false %>
         <%= sub_f.label :category_id, category.name %>
       <% end %>
     <% end %>

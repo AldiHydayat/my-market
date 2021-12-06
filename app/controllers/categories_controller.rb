@@ -23,7 +23,13 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @category.update(category_params)
+    if @category.update(category_params)
+      flash[:notice] = "Edit Successful"
+      flash[:color] = "success"
+    else
+      flash[:notice] = "Edit Failed"
+      flash[:color] = "danger"
+    end
 
     redirect_to categories_path
   end
