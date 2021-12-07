@@ -14,11 +14,32 @@ class Order < ApplicationRecord
 
   scope :get_my_order, ->(user) { where(user: user) }
 
-  aasm column: :status, enum: true do
+  aasm column: :status do
     state :wait_for_confirmation, initial: true
     state :processing
     state :shipping
     state :order_successful
+
+    event :process do
+      transitions to: :processing
+    end
+
+    event :ship do
+      transitions to: :shipping
+    end
+
+    event :succeed do
+      transitions to: :order_successful
+    end
+  end
+
+  def create_order
+    ActiveRecord::Base.transaction do
+      self.save
+      admin = User.find_by(level: "admin").email
+      OrderMailer.with(order: self, receiver: admin).new_order.deliver_later
+      Cart.destroy_my_cart(self.user)
+    end
   end
 
   def set_total_price
@@ -27,5 +48,13 @@ class Order < ApplicationRecord
       total_price = total_price + (order_detail.quantity * order_detail.product.price)
     end
     self.total_price = total_price
+  end
+
+  def confirm_order
+    self.process
+    order_details.each do |od|
+      od.product.reduce_stock_and_increase_sold(od.quantity)
+    end
+    save
   end
 end

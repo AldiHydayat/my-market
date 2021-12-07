@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Your order has confirmed</h3>
+    <h4>Order Details</h4>
+    <% @order.order_details.each do |od| %>
+      <p>
+        product: <%= od.product.name %>
+        <br>
+        quantity: <%= od.quantity %>
+      </p>
+    <% end %>
+    <p>Total : <%= number_to_currency(@order.total_price, unit: "Rp. ") %></p>
+  </body>
+</html>

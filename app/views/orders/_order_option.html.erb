@@ -1,0 +1,11 @@
+<% if current_user.level == "admin" && user_signed_in? %>
+  <% if order.status == "wait_for_confirmation" %>
+    <%= link_to 'Confirm Order', confirm_order_order_path(order), class: "badge rounded-pill bg-success text-light", method: :put %>
+  <% elsif order.status == "processing" %>
+    <%= link_to 'Deliver Order', deliver_order_order_path(order), class: "badge rounded-pill bg-success text-light", method: :put %>
+  <% end %>
+<% elsif current_user.level == "buyer" && user_signed_in? %>
+  <% if order.status == "shipping" %>
+    <%= link_to 'Confirm Order Succeed', order_succeed_order_path(order), class: "badge rounded-pill bg-success text-light", method: :put, data: { confirm: "pastikan anda telah menerima barang" } %>
+  <% end %>
+<% end %>

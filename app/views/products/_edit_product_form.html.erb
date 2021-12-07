@@ -22,8 +22,8 @@
   <div class="mb-3">
     <%= label_tag "Category: " %>
     <% @categories.each do |category| %>
-      <%= f.fields_for :product_categories do |sub_f| %>
-        <%= sub_f.check_box :category_id, {}, category.id, false %>
+      <%= f.fields_for :product_categories, ProductCategory.find_or_initialize_by(category_id: category.id) do |sub_f| %>
+        <%= sub_f.check_box :category_id, { checked: !sub_f.object.new_record? }, category.id, false %>
         <%= sub_f.label :category_id, category.name %>
       <% end %>
     <% end %>
@@ -31,37 +31,12 @@
   <div class="mb-3">
     <% @product.product_photos.each do |pp| %>
       <%= image_tag pp.photo_url %>
+      <%= f.fields_for :product_photos, pp do |sub_f| %>
+        <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
+      <% end %>
     <% end %>
   </div>
   <div class="mb-3">
-    <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
-      <%= sub_f.label :photo, "Main Photo", class: "form-label" %>
-      <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
-      <%= sub_f.label :photo, "Photo 2", class: "form-label" %>
-      <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
-      <%= sub_f.label :photo, "Photo 3", class: "form-label" %>
-      <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
-      <%= sub_f.label :photo, "Photo 4", class: "form-label" %>
-      <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
-      <%= sub_f.label :photo, "Photo 5", class: "form-label" %>
-      <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
-    <% end %>
   </div>
   <%= f.submit "Submit", class: "btn btn-success" %>
 <% end %>

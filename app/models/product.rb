@@ -4,7 +4,7 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
   has_many :product_photos, dependent: :destroy
   has_many :categories, through: :product_categories
-  accepts_nested_attributes_for :product_categories, :product_photos, :carts, reject_if: :all_blank
+  accepts_nested_attributes_for :product_categories, :product_photos, reject_if: :all_blank
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -12,8 +12,8 @@ class Product < ApplicationRecord
   validates :name, :price, :description, :stock, :sold, presence: true
   validates :price, :stock, :sold, numericality: true
 
-  validates_associated :product_photos
-  validates_associated :product_categories
+  validates_presence_of :product_photos
+  validates_presence_of :product_categories
 
   scope :search_products, ->(keyword) { where("name like ? and is_active = ?", "%#{keyword}%", true) }
   scope :active_products, -> { where(is_active: true) }
@@ -25,6 +25,12 @@ class Product < ApplicationRecord
       self.is_active = true
     end
 
+    save
+  end
+
+  def reduce_stock_and_increase_sold(quantity)
+    self.stock = stock - quantity
+    self.sold = sold + quantity
     save
   end
 end

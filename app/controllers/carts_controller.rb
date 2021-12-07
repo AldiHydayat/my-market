@@ -9,30 +9,16 @@ class CartsController < ApplicationController
   end
 
   def create
-    # CARI TAHU find_or_initialize BIAR GAK PERLU PAKE KONDISI ADA ATAU GAK ADA
-    # JADI NANTINYA CEK NYA new_record? ATAU BUKAN
-    @cart = Cart.find_cart(current_user, params[:cart][:product_id])
-
+    @cart = Cart.insert_cart(cart_params)
     if @cart
-      @cart.add_quantity(params[:cart][:quantity].to_i)
-
       flash[:notice] = "Keranjang telah ditambah"
       flash[:color] = "success"
     else
-      @cart = Cart.new(cart_params)
-      @cart.user = current_user
-
-      # SAVE DI MODEL ATAU DI CONTROLLER
-      if @cart.save
-        flash[:notice] = "Keranjang telah ditambah"
-        flash[:color] = "success"
-      else
-        flash[:notice] = "Keranjang gagal ditambah"
-        flash[:color] = "danger"
-      end
+      flash[:notice] = "Keranjang gagal ditambah"
+      flash[:color] = "danger"
     end
 
-    redirect_to product_path(@cart.product)
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy
@@ -43,7 +29,7 @@ class CartsController < ApplicationController
   private
 
   def cart_params
-    params.require(:cart).permit(:product_id, :quantity)
+    params.require(:cart).permit(:user_id, :product_id, :quantity)
   end
 
   def set_cart

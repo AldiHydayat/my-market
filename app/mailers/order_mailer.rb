@@ -2,6 +2,18 @@ class OrderMailer < ApplicationMailer
   def new_order
     @order = params[:order]
 
-    mail(to: "f38ea720a7-903c91@inbox.mailtrap.io", subject: "You got a new order!")
+    mail(to: params[:receiver], subject: "You got a new order!")
+  end
+
+  def order_confirmed
+    @order = params[:order]
+
+    mail(to: params[:receiver], subject: "Your Order Confirmed")
+  end
+
+  def deliver_order
+    @order = params[:order]
+
+    mail(to: params[:receiver], subject: "Your Order On Delivery")
   end
 end

@@ -1,7 +1,13 @@
 <% @orders.each do |order| %>
-  <div class="d-flex align-items-center">
-    <%= order.created_at.to_time.strftime('%B %e, %Y') %>
-    <span class="badge rounded-pill bg-warning text-dark"><%= order.status %></span>
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <%= order.created_at.to_time.strftime('%B %e, %Y') %>
+      <%= order.user.name %>
+      <%= render "order_status", order: order %>
+    </div>
+    <div>
+      <%= render 'order_option', order: order %>
+    </div>
   </div>
   <% order.order_details.each do |od| %>
     <div class="jumbotron">
