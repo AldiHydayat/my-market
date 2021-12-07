@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def new
+    # move @categories = Category.all to method call on before_action
     @categories = Category.all
     @product = Product.new
   end

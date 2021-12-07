@@ -37,6 +37,7 @@ class Order < ApplicationRecord
     ActiveRecord::Base.transaction do
       self.save
       admin = User.find_by(level: "admin").email
+      # move email to bottom
       OrderMailer.with(order: self, receiver: admin).new_order.deliver_later
       Cart.destroy_my_cart(self.user)
     end

@@ -40,12 +40,14 @@ class OrdersController < ApplicationController
   def confirm_order
     @order.confirm_order
 
+    # move email code to confirm_order method
     OrderMailer.with(order: @order, receiver: @order.user.email).order_confirmed.deliver_later
 
     redirect_to orders_path
   end
 
   def deliver_order
+    # move to aasm callback
     @order.ship
     @order.save
 
@@ -55,6 +57,7 @@ class OrdersController < ApplicationController
   end
 
   def order_succeed
+    # move to aasm callback
     @order.succeed
     @order.save
 
