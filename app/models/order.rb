@@ -36,6 +36,11 @@ class Order < ApplicationRecord
   def create_order
     ActiveRecord::Base.transaction do
       self.save!
+      self.order_details.each do |od|
+        if od.product.stock == 0
+          raise ActiveRecord::Rollback
+        end
+      end
       Cart.destroy_my_cart(self.user)
       admin = User.find_by(level: "admin").email
       OrderMailer.with(order: self, receiver: admin).new_order.deliver_later
