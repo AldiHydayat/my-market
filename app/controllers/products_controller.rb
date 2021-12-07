@@ -1,19 +1,19 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: %i[search]
   before_action :admin_only, only: %i[index new create edit update destroy active_toggle]
-  before_action :set_product, only: %i[show edit update destroy active_toggle wishlist_toggle my_wishlist]
+  before_action :set_product, only: %i[show edit update destroy active_toggle wishlist_toggle]
+  before_action :get_all_categories, only: %i[new create edit]
+  before_action :is_product_active?, only: %i[show]
 
   def index
     @products = Product.all
   end
 
   def new
-    @categories = Category.all
     @product = Product.new
   end
 
   def create
-    @categories = Category.all
     @product = Product.new(product_params)
 
     if @product.save
@@ -28,7 +28,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @categories = Category.all
     @category = Category.new
   end
 
@@ -90,12 +89,22 @@ class ProductsController < ApplicationController
   end
 
   def admin_only
-    if !user_signed_in? && current_user.level != :admin
+    if current_user.level != "admin"
       redirect_to root_path
     end
   end
 
+  def get_all_categories
+    @categories = Category.all
+  end
+
   def set_product
     @product = Product.friendly.find(params[:id])
+  end
+
+  def is_product_active?
+    if !@product.is_active && current_user.level != "admin"
+      redirect_back(fallback_location: root_path)
+    end
   end
 end

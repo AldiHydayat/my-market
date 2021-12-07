@@ -24,21 +24,21 @@ class Order < ApplicationRecord
       transitions to: :processing
     end
 
-    event :ship do
+    event :ship, after: :send_deliver_order_email do
       transitions to: :shipping
     end
 
-    event :succeed do
+    event :succeed, after: :send_order_succeed_email do
       transitions to: :order_successful
     end
   end
 
   def create_order
     ActiveRecord::Base.transaction do
-      self.save
+      self.save!
+      Cart.destroy_my_cart(self.user)
       admin = User.find_by(level: "admin").email
       OrderMailer.with(order: self, receiver: admin).new_order.deliver_later
-      Cart.destroy_my_cart(self.user)
     end
   end
 
@@ -50,11 +50,29 @@ class Order < ApplicationRecord
     self.total_price = total_price
   end
 
+  def send_deliver_order_email
+    ActiveRecord::Base.transaction do
+      self.save!
+      admin = User.find_by(level: "admin").email
+      OrderMailer.with(order: self, receiver: user.email).deliver_order.deliver_later
+    end
+  end
+
+  def send_order_succeed_email
+    ActiveRecord::Base.transaction do
+      self.save!
+      admin = User.find_by(level: "admin").email
+      OrderMailer.with(order: self, receiver: admin).order_successful.deliver_later
+    end
+  end
+
   def confirm_order
     self.process
     order_details.each do |od|
       od.product.reduce_stock_and_increase_sold(od.quantity)
     end
     save
+
+    OrderMailer.with(order: self, receiver: user.email).order_confirmed.deliver_later
   end
 end

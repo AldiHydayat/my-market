@@ -1,7 +1,7 @@
 <div class="container">
-  <%= link_to 'Lihat Produk', product_path(@summary["id"]) %>
+  <%= link_to 'Lihat Produk', product_path(@summary["slug"]) %>
   <div class="row">
-    <h3><%= @summary[:name] %></h3>
+    <h3><%= @summary["name"] %></h3>
   </div>
   <div class="row">
     <% @summary["photos"].each do |photo| %>

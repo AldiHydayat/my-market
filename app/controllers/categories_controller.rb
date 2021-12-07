@@ -51,7 +51,7 @@ class CategoriesController < ApplicationController
   end
 
   def admin_only
-    if !user_signed_in? && current_user.level != :admin
+    if current_user.level != "admin"
       redirect_to root_path
     end
   end

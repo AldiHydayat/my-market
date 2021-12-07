@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[summary confirm_order deliver_order order_succeed]
 
   def index
-    @orders = Order.order(status: :asc)
+    @orders = Order.order(status: :asc, updated_at: :desc)
   end
 
   def checkout
@@ -35,30 +35,40 @@ class OrdersController < ApplicationController
   end
 
   def my_order
-    @orders = Order.get_my_order(current_user).order(status: :asc)
+    @orders = Order.get_my_order(current_user).order(status: :asc, updated_at: :desc)
   end
 
   def confirm_order
-    @order.confirm_order
+    if @order.confirm_order
+      flash[:notice] = "Order confirmation successful"
+      flash[:color] = "success"
+    else
+      flash[:notice] = "Order confirmation failed"
+      flash[:color] = "success"
+    end
     redirect_to orders_path
   end
 
   def deliver_order
-    @order.ship
-    @order.save
-
-    OrderMailer.with(order: @order, receiver: @order.user.email).deliver_order.deliver_later
+    if @order.ship
+      flash[:notice] = "Order confirmation successful"
+      flash[:color] = "success"
+    else
+      flash[:notice] = "Order confirmation failed"
+      flash[:color] = "success"
+    end
 
     redirect_to orders_path
   end
 
   def order_succeed
-    @order.succeed
-    @order.save
-
-    admin = User.find_by(level: "admin").slice(:email)
-
-    OrderMailer.with(order: @order, receiver: admin).deliver_order.deliver_later
+    if @order.succeed
+      flash[:notice] = "Order confirmation successful"
+      flash[:color] = "success"
+    else
+      flash[:notice] = "Order confirmation failed"
+      flash[:color] = "success"
+    end
 
     redirect_to my_order_orders_path
   end
@@ -66,26 +76,28 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:user_id, :status, :order_details_attributes => [:product_id, :quantity])
+    params.require(:order)
+      .permit(:user_id, :status, :order_details_attributes => [:product_id, :quantity])
   end
 
   def create_order_params
-    params.require(:order).permit(:user_id, :status, :total_price, :order_details_attributes => [:product_id, :quantity])
+    params.require(:order)
+      .permit(:user_id, :status, :total_price, :order_details_attributes => [:product_id, :quantity])
   end
 
   def buyer_only
-    if !user_signed_in? && current_user.level != "buyer"
-      notice[:flash] = "Access Denied"
-      notice[:color] = "danger"
+    if current_user.level != "buyer"
+      flash[:flash] = "Access Denied"
+      flash[:color] = "danger"
 
       redirect_back(fallback_location: root_path)
     end
   end
 
   def admin_only
-    if !user_signed_in? && current_user.level != "admin"
-      notice[:flash] = "Access Denied"
-      notice[:color] = "danger"
+    if current_user.level != "admin"
+      flash[:flash] = "Access Denied"
+      flash[:color] = "danger"
 
       redirect_back(fallback_location: root_path)
     end
