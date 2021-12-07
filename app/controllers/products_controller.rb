@@ -68,6 +68,11 @@ class ProductsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def my_wishlist
+    @products = current_user.find_liked_items
+    render "home/index"
+  end
+
   private
 
   def product_params
