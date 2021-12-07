@@ -9,6 +9,8 @@ class User < ApplicationRecord
   before_update :convert_address_to_html
   before_update :titleize_name
 
+  acts_as_voter
+
   has_many :carts
   has_many :orders
   enum level: [:admin, :buyer], _default: "buyer"

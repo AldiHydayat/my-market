@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :admin_only, only: %i[index new create edit update destroy active_toggle]
-  before_action :set_product, only: %i[show edit update destroy active_toggle]
+  before_action :set_product, only: %i[show edit update destroy active_toggle wishlist_toggle]
 
   def index
     @products = Product.all
@@ -60,6 +60,12 @@ class ProductsController < ApplicationController
     redirect_to root_path if params[:keyword].blank?
 
     @products = Product.search_products(params[:keyword])
+  end
+
+  def wishlist_toggle
+    @product.wishlist_toggle(current_user)
+
+    redirect_back(fallback_location: root_path)
   end
 
   private

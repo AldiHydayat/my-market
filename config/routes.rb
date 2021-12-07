@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
     member do
       put "active" => "products#active_toggle"
+      put "wishlist" => "products#wishlist_toggle"
     end
   end
 

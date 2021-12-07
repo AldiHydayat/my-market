@@ -9,6 +9,8 @@ class Product < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  acts_as_votable
+
   validates :name, :price, :description, :stock, :sold, presence: true
   validates :price, :stock, :sold, numericality: true
 
@@ -32,5 +34,13 @@ class Product < ApplicationRecord
     self.stock = stock - quantity
     self.sold = sold + quantity
     save
+  end
+
+  def wishlist_toggle(user)
+    if user.liked? self
+      unliked_by user
+    else
+      liked_by user
+    end
   end
 end
