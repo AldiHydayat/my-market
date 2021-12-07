@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :buyer_only, only: %i[create my_order checkout my_order]
+  before_action :buyer_only, only: %i[create my_order checkout my_order order_succeed]
+  before_action :admin_only, only: %i[index confirm_order deliver_order]
   before_action :set_order, only: %i[summary confirm_order deliver_order order_succeed]
 
   def index
@@ -39,9 +40,6 @@ class OrdersController < ApplicationController
 
   def confirm_order
     @order.confirm_order
-
-    OrderMailer.with(order: @order, receiver: @order.user.email).order_confirmed.deliver_later
-
     redirect_to orders_path
   end
 
@@ -77,6 +75,15 @@ class OrdersController < ApplicationController
 
   def buyer_only
     if !user_signed_in? && current_user.level != "buyer"
+      notice[:flash] = "Access Denied"
+      notice[:color] = "danger"
+
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def admin_only
+    if !user_signed_in? && current_user.level != "admin"
       notice[:flash] = "Access Denied"
       notice[:color] = "danger"
 
