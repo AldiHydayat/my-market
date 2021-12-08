@@ -2,7 +2,17 @@
   <%= image_tag(product.product_photos.first.photo_url) %>
   <div class="card-body">
     <h5 class="card-title"><%= product.name %></h5>
-    <p class="card-text"><%= number_to_currency(product.price, unit: "Rp. ") %></p>
+    <p class="card-text">
+      <% if product.discount > 0 %>
+        <p>
+          <%= discount_price(product.price, product.discount) %>
+          <br>
+          <strike><%= number_to_currency(product.price, unit: "Rp. ") %></strike> <%= "#{product.discount.to_i}% Discount" %>
+        </p>
+      <% else %>
+        <%= number_to_currency(product.price, unit: "Rp. ") %>
+      <% end %>
+    </p>
     <%= link_to 'Lihat Detail', product_path(product), class: "btn btn-primary btn-sm" %>
     <% if user_signed_in? && current_user.level == "buyer" %>
       <%= link_to (fa_icon "heart"), wishlist_product_path(product), class: current_user.liked?(product) ? "text-danger" : "text-muted", alt: "add to wishlist", method: :put %>

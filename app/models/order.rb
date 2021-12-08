@@ -50,7 +50,14 @@ class Order < ApplicationRecord
   def set_total_price
     total_price = 0
     order_details.each do |order_detail|
-      total_price = total_price + (order_detail.quantity * order_detail.product.price)
+      if order_detail.product.discount > 0
+        discount = (order_detail.product.discount / 100) * order_detail.product.price
+        discount_price = order_detail.product.price - discount
+
+        total_price = total_price + (order_detail.quantity * discount_price)
+      else
+        total_price = total_price + (order_detail.quantity * order_detail.product.price)
+      end
     end
     self.total_price = total_price
   end

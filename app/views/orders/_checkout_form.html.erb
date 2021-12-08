@@ -14,9 +14,19 @@
         <div class="col">
           <div class="row">
             <p>
-              <%= od.product.name %><br>
-              Price Per Item: <%= number_to_currency(od.product.price, unit: "Rp. ") %><br>
-              Quantity: <%= od.quantity %></p>
+              <%= od.product.name %>
+              <br>
+              <% if od.product.discount > 0 %>
+                Price Per Item: <%= discount_price(od.product.price, od.product.discount) %>
+                <br>
+                <strike><%= number_to_currency(od.product.price, unit: "Rp. ") %></strike> <%= "#{od.product.discount.to_i}% Discount" %>
+                Quantity: <%= od.quantity %>
+              <% else %>
+                Price Per Item: <%= discount_price(od.product.price, od.product.discount) %><br>
+                Quantity: <%= od.quantity %>
+              <% end %>
+            </p>
+            <br>
           </div>
         </div>
       </div>

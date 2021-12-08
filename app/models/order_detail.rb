@@ -13,6 +13,7 @@ class OrderDetail < ApplicationRecord
 
   def set_product_summary
     hash = {}
+    # Menambah kondisi jika discount
     hash.merge!(product.slice(:id, :name, :price, :description, :slug))
     hash["photos"] = product.product_photos.map do |pp|
       pp.photo_url

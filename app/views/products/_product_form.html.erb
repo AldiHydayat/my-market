@@ -28,10 +28,19 @@
   </div>
   <div class="mb-3">
     <%= f.label :stock, class: "form-label" %>
-    <%= f.text_field :stock, class: "form-control #{ 'is-invalid' if @product.errors[:stock].present? }" %>
+    <%= f.number_field :stock, class: "form-control #{ 'is-invalid' if @product.errors[:stock].present? }" %>
     <% if @product.errors[:stock].present? %>
       <small class="text-danger">
         <%= @product.errors[:stock].first %>
+      </small>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :discount, "Discount (%)", class: "form-label" %>
+    <%= f.number_field :discount, class: "form-control #{ 'is-invalid' if @product.errors[:discount].present? }" %>
+    <% if @product.errors[:discount].present? %>
+      <small class="text-danger">
+        <%= @product.errors[:discount].first %>
       </small>
     <% end %>
   </div>

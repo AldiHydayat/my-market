@@ -25,7 +25,15 @@
           <% end %>
         </div>
         <div class="row">
-          <p>Harga Per Item: <%= number_to_currency(cart.product.price, unit: "Rp. ") %></p>
+          <% if cart.product.discount > 0 %>
+            <p>
+              Harga Per Item: <%= discount_price(cart.product.price, cart.product.discount) %>
+              <br>
+              <strike><%= number_to_currency(cart.product.price, unit: "Rp. ") %></strike> <%= "#{cart.product.discount.to_i}% Discount" %>
+            </p>
+          <% else %>
+            Harga Per Item: <%= number_to_currency(cart.product.price, unit: "Rp. ") %>
+          <% end %>
         </div>
         <div class="row">
           <div class="col">

@@ -11,7 +11,12 @@
     <%= link_to (fa_icon "heart") , wishlist_product_path(@product), class: current_user.liked?(@product) ? "text-danger" : "text-muted", alt: "add to wishlist", method: :put %>
   <% end %>
   <div>
-    <h3><%= number_to_currency(@product.price, unit: "Rp. ") %></h3>
+    <% if @product.discount > 0 %>
+      <h3><%= discount_price(@product.price, @product.discount) %></h3>
+      <h5><strike><%= number_to_currency(@product.price, unit: "Rp. ") %></strike> <%= "#{@product.discount.to_i}% Discount" %></h5>
+    <% else %>
+      <h3><%= number_to_currency(@product.price, unit: "Rp. ") %></h3>
+    <% end %>
   </div>
   <div class="row">
     <p> Stock: <%= @product.stock %></p>
