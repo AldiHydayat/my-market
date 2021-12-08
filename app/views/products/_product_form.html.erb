@@ -1,23 +1,50 @@
 <%= form_for @product, html: { multipart: true } do |f| %>
   <div class="mb-3">
     <%= f.label :name, class: "form-label" %>
-    <%= f.text_field :name, class: "form-control" %>
+    <%= f.text_field :name, class: "form-control #{ 'is-invalid' if @product.errors[:name].present? }" %>
+    <% if @product.errors[:name].present? %>
+      <small class="text-danger">
+        <%= @product.errors[:name].first %>
+      </small>
+    <% end %>
   </div>
   <div class="mb-3">
     <%= f.label :price, class: "form-label" %>
-    <%= f.text_field :price, class: "form-control" %>
+    <%= f.text_field :price, class: "form-control #{ 'is-invalid' if @product.errors[:price].present? }" %>
+    <% if @product.errors[:price].present? %>
+      <small class="text-danger">
+        <%= @product.errors[:price].first %>
+      </small>
+    <% end %>
   </div>
   <div class="mb-3">
     <%= f.label :description, class: "form-label" %>
-    <%= f.text_area :description, class: "form-control" %>
+    <%= f.text_area :description, class: "form-control #{ 'is-invalid' if @product.errors[:description].present? }" %>
+    <% if @product.errors[:description].present? %>
+      <small class="text-danger">
+        <%= @product.errors[:description].first %>
+      </small>
+    <% end %>
   </div>
   <div class="mb-3">
     <%= f.label :stock, class: "form-label" %>
-    <%= f.text_field :stock, class: "form-control" %>
+    <%= f.text_field :stock, class: "form-control #{ 'is-invalid' if @product.errors[:stock].present? }" %>
+    <% if @product.errors[:stock].present? %>
+      <small class="text-danger">
+        <%= @product.errors[:stock].first %>
+      </small>
+    <% end %>
   </div>
   <div class="mb-3">
     <%= f.label :is_active, class: "form-check-label" %>
     <%= f.check_box :is_active, class: "form-check-input" %>
+  </div>
+  <div>
+    <% if @product.errors[:product_categories].present? %>
+      <small class="text-danger">
+        Category <%= @product.errors[:product_categories].first %>
+      </small>
+    <% end %>
   </div>
   <div class="mb-3">
     <%= label_tag "Category: " %>
@@ -26,6 +53,13 @@
         <%= sub_f.check_box :category_id, {}, category.id, false  %>
         <%= sub_f.label :category_id, category.name %>
       <% end %>
+    <% end %>
+  </div>
+  <div>
+    <% if @product.errors[:product_photos].present? %>
+      <small class="text-danger">
+        Photos <%= @product.errors[:product_photos].first %>
+      </small>
     <% end %>
   </div>
   <div class="mb-3">

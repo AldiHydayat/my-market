@@ -7,10 +7,18 @@
       </div>
       <div class="col">
         <div class="row">
-          <%= f.fields_for :order_details, OrderDetail.new do |sub_f| %>
-            <%= sub_f.hidden_field :product_id, value: cart.product_id %>
-            <%= sub_f.label :quantity, "Quantity", class: "form-label" %>
-            <%= sub_f.number_field :quantity, value: cart.quantity, class: "form-control", min: 1, max: cart.product.stock %>
+          <% if cart.product.stock <= 0 %>
+            <p>
+              Stock Barang Habis
+              <br>
+              <small class="text-danger">Silahkan buang dari keranjang</small>
+            </p>
+          <% else %>
+            <%= f.fields_for :order_details, OrderDetail.new do |sub_f| %>
+              <%= sub_f.hidden_field :product_id, value: cart.product_id %>
+              <%= sub_f.label :quantity, "Quantity", class: "form-label" %>
+              <%= sub_f.number_field :quantity, value: cart.quantity, class: "form-control", min: 1, max: cart.product.stock %>
+            <% end %>
           <% end %>
         </div>
         <div class="row">
@@ -25,5 +33,5 @@
       </div>
     </div>
   <% end %>
-  <%= f.submit "Submit", class: "btn btn-primary" %>
+  <%= f.submit "Submit", class: "btn btn-primary", data: { disable_with: "Please wait..." }, disabled: (@carts.select { |cart| cart.product.stock == 0 }.present?) %>
 <% end %>

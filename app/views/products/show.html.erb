@@ -7,6 +7,9 @@
       <%= image_tag pp.photo_url, style: " width:200px; height:auto " %>
     <% end %>
   </div>
+  <% if user_signed_in? && current_user.level == "buyer" %>
+    <%= link_to (fa_icon "heart") , wishlist_product_path(@product), class: current_user.liked?(@product) ? "text-danger" : "text-muted", alt: "add to wishlist", method: :put %>
+  <% end %>
   <div>
     <h3><%= number_to_currency(@product.price, unit: "Rp. ") %></h3>
   </div>

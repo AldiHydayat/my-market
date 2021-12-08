@@ -4,7 +4,7 @@ class Cart < ApplicationRecord
 
   validates :user, :product, :quantity, presence: true
 
-  scope :get_my_cart, ->(user) { where(user: user) }
+  scope :get_my_cart, ->(user) { includes(:product).where(user: user, products: { is_active: true }) }
 
   def add_quantity(quantity)
     self.quantity = self.quantity + quantity

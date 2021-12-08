@@ -37,9 +37,9 @@ class CartsController < ApplicationController
   end
 
   def buyer_only
-    if !user_signed_in? && current_user.level != "buyer"
-      notice[:flash] = "Access Denied"
-      notice[:color] = "danger"
+    if current_user.level != "buyer"
+      flash[:flash] = "Access Denied"
+      flash[:color] = "danger"
 
       redirect_back(fallback_location: root_path)
     end

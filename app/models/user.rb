@@ -9,12 +9,18 @@ class User < ApplicationRecord
   before_update :convert_address_to_html
   before_update :titleize_name
 
+  acts_as_voter
+
   has_many :carts
   has_many :orders
   enum level: [:admin, :buyer], _default: "buyer"
 
   validates :name, :phone_number, :address, :level, presence: true
   validates :phone_number, numericality: true
+
+  def get_my_wishlist
+    find_liked_items.select { |product| product.is_active == true }
+  end
 
   private
 

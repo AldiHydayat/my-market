@@ -16,4 +16,10 @@ class OrderMailer < ApplicationMailer
 
     mail(to: params[:receiver], subject: "Your Order On Delivery")
   end
+
+  def order_successful
+    @order = params[:order]
+
+    mail(to: params[:receiver], subject: "Order Successful")
+  end
 end

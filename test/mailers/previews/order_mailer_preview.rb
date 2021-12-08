@@ -17,4 +17,10 @@ class OrderMailerPreview < ActionMailer::Preview
 
     OrderMailer.with(order: @order, receiver: @order.user.email).deliver_order
   end
+
+  def order_successful
+    @order = Order.first
+
+    OrderMailer.with(order: @order, receiver: @order.user.email).order_successful
+  end
 end

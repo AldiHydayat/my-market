@@ -11,8 +11,9 @@
   <body>
     <%= render 'layouts/navbar' %>
     <% if flash[:notice].present? && flash[:color].present? %>
-      <div class="alert alert-<%= flash[:color] %>" role="alert">
+      <div class="alert alert-<%= flash[:color] %> alert-dismissible fade show" role="alert">
         <%= flash[:notice] %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
     <%= yield %>

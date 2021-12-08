@@ -22,7 +22,7 @@
   <div class="mb-3">
     <%= label_tag "Category: " %>
     <% @categories.each do |category| %>
-      <%= f.fields_for :product_categories, ProductCategory.find_or_initialize_by(category_id: category.id) do |sub_f| %>
+      <%= f.fields_for :product_categories, ProductCategory.find_or_initialize_by(category_id: category.id, product_id: f.object.id) do |sub_f| %>
         <%= sub_f.check_box :category_id, { checked: !sub_f.object.new_record? }, category.id, false %>
         <%= sub_f.label :category_id, category.name %>
       <% end %>
@@ -32,6 +32,12 @@
     <% @product.product_photos.each do |pp| %>
       <%= image_tag pp.photo_url %>
       <%= f.fields_for :product_photos, pp do |sub_f| %>
+        <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
+      <% end %>
+    <% end %>
+    <% for i in 1..(5 - @product.product_photos.count) do %>
+      <%= f.fields_for :product_photos, ProductPhoto.new do |sub_f| %>
+        <%= sub_f.label :photos %>
         <%= sub_f.file_field :photo, class: "form-control", id: "photos_field" %>
       <% end %>
     <% end %>

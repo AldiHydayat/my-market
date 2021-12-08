@@ -4,10 +4,12 @@ Rails.application.routes.draw do
 
   get "search" => "products#search"
   get "product_summary/:id" => "order_details#summary", as: "summary"
+  get "wishlist" => "products#my_wishlist", as: "my_wishlist"
 
   resources :products, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
     member do
       put "active" => "products#active_toggle"
+      put "wishlist" => "products#wishlist_toggle"
     end
   end
 

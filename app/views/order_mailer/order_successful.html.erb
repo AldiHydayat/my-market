@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Order Successful</h3>
+    <p>Name: <%= @order.user.name %></p>
+    <p>Email: <%= @order.user.email %></p>
+    <p>Address: <%= simple_format(@order.user.address) %></p>
+    <p>Phone: <%= @order.user.phone_number %></p>
+    <h4>Order Details</h4>
+    <% @order.order_details.each do |od| %>
+      <p>
+        product: <%= od.product.name %>
+        <br>
+        quantity: <%= od.quantity %>
+      </p>
+    <% end %>
+    <p>Total : <%= number_to_currency(@order.total_price, unit: "Rp. ") %></p>
+  </body>
+</html>
