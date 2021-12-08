@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "home#index"
   devise_for :users, controllers: { registrations: "user/registrations" }
 
+  get "404" => "errors#not_found", as: "error_not_found"
+
   get "search" => "products#search"
   get "product_summary/:id" => "order_details#summary", as: "summary"
   get "wishlist" => "products#my_wishlist", as: "my_wishlist"

@@ -7,11 +7,14 @@
       </div>
       <div class="col">
         <div class="row">
-          <% if cart.product.stock <= 0 %>
+          <h4><%= cart.product.name %></h4>
+          <% if cart.product.is_active == false %>
             <p>
-              Stock Barang Habis
-              <br>
-              <small class="text-danger">Silahkan buang dari keranjang</small>
+              <small class="text-danger">Product Unavailable</small>
+            </p>
+          <% elsif cart.product.stock == 0 %>
+            <p>
+              <small class="text-danger">Sold Out</small>
             </p>
           <% else %>
             <%= f.fields_for :order_details, OrderDetail.new do |sub_f| %>
@@ -26,12 +29,12 @@
         </div>
         <div class="row">
           <div class="col">
-            <%= link_to 'Lihat Produk', product_path(cart.product), class: "badge rounded-pill bg-success text-decoration-none link-light" %>
+            <%= (link_to 'Lihat Produk', product_path(cart.product), class: "badge rounded-pill bg-success text-decoration-none link-light") if cart.product.is_active == true && cart.product.stock > 0 %>
             <%= link_to 'Hapus', cart_path(cart), class: "badge rounded-pill bg-danger text-decoration-none link-light", data: { confirm: "Are you sure?" }, method: :delete %>
           </div>
         </div>
       </div>
     </div>
   <% end %>
-  <%= f.submit "Submit", class: "btn btn-primary", data: { disable_with: "Please wait..." }, disabled: (@carts.select { |cart| cart.product.stock == 0 }.present?) %>
+  <%= f.submit "Submit", class: "btn btn-primary", data: { disable_with: "Please wait..." }, disabled: ( @carts.length == (@carts.select { |cart| cart.product.stock == 0 || cart.product.is_active == false }.length) ) %>
 <% end %>

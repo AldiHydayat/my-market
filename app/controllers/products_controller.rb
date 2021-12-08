@@ -104,7 +104,7 @@ class ProductsController < ApplicationController
 
   def is_product_active?
     if !@product.is_active && current_user.level != "admin"
-      redirect_back(fallback_location: root_path)
+      render "errors/not_found"
     end
   end
 end

@@ -19,7 +19,7 @@ class User < ApplicationRecord
   validates :phone_number, numericality: true
 
   def get_my_wishlist
-    find_liked_items.select { |product| product.is_active == true }
+    find_liked_items.select
   end
 
   private
