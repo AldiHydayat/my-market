@@ -51,10 +51,10 @@ class OrdersController < ApplicationController
 
   def deliver_order
     if @order.ship
-      flash[:notice] = "Order confirmation successful"
+      flash[:notice] = "Order deliver successful"
       flash[:color] = "success"
     else
-      flash[:notice] = "Order confirmation failed"
+      flash[:notice] = "Order deliver failed"
       flash[:color] = "success"
     end
 

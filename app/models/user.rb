@@ -18,6 +18,10 @@ class User < ApplicationRecord
   validates :name, :phone_number, :address, :level, presence: true
   validates :phone_number, numericality: true
 
+  def get_my_wishlist
+    find_liked_items.select { |product| product.is_active == true }
+  end
+
   private
 
   def convert_address_to_html

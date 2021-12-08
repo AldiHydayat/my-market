@@ -68,7 +68,7 @@ class ProductsController < ApplicationController
   end
 
   def my_wishlist
-    @products = current_user.find_liked_items
+    @products = current_user.get_my_wishlist
     render "home/index"
   end
 
