@@ -13,8 +13,17 @@ class OrderDetail < ApplicationRecord
 
   def set_product_summary
     hash = {}
-    # Menambah kondisi jika discount
-    hash.merge!(product.slice(:id, :name, :price, :description, :slug))
+    if product.discount > 0
+      hash.merge!(product.slice(:id, :name, :description, :slug, :discount))
+
+      d = (product.discount / 100) * product.price
+      discount_price = product.price - d
+
+      hash["price"] = discount_price
+    else
+      hash.merge!(product.slice(:id, :name, :price, :description, :slug))
+    end
+
     hash["photos"] = product.product_photos.map do |pp|
       pp.photo_url
     end

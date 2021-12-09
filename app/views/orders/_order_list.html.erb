@@ -16,8 +16,8 @@
           <%= image_tag od.product.product_photos.first.photo_url %>
         </p>
         <div class="ms-3">
-          <p class="fw-bold"><%= od.product.name %></p>
-          <p><%= od.quantity %> barang x <%= number_to_currency(od.product.price, unit: "Rp. ") %></p>
+          <p class="fw-bold"><%= od.product_summary["name"] %></p>
+          <p><%= od.quantity %> barang x <%= number_to_currency(od.product_summary["price"], unit: "Rp. ") %></p>
           <%= link_to 'Lihat', summary_path(od) %>
         </div>
       </div>

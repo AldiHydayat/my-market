@@ -20,11 +20,11 @@
                 Price Per Item: <%= discount_price(od.product.price, od.product.discount) %>
                 <br>
                 <strike><%= number_to_currency(od.product.price, unit: "Rp. ") %></strike> <%= "#{od.product.discount.to_i}% Discount" %>
-                Quantity: <%= od.quantity %>
               <% else %>
                 Price Per Item: <%= discount_price(od.product.price, od.product.discount) %><br>
-                Quantity: <%= od.quantity %>
               <% end %>
+              <br>
+              Quantity: <%= od.quantity %>
             </p>
             <br>
           </div>
