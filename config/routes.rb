@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "wishlist" => "products#my_wishlist", as: "my_wishlist"
 
   resources :products, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-    resources :reviews
+    resources :reviews, except: %i[destroy]
 
     member do
       put "active" => "products#active_toggle"

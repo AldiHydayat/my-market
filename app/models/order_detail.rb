@@ -1,6 +1,7 @@
 class OrderDetail < ApplicationRecord
   belongs_to :order
   belongs_to :product
+  has_one :review
   serialize :product_summary
 
   before_create :set_product_summary

@@ -7,8 +7,7 @@
     </div>
     <div class="text ms-3">
       <p><%= @product.name %></p>
-      <%= form_for @product.reviews.build, url: product_reviews_path do |f| %>
-        <%= f.hidden_field :order_detail_id, value: @order_detail.id %>
+      <%= form_for @review, url: product_review_path(@product, @review) do |f| %>
         Rating
         <div class="form-check">
           <%= f.radio_button :rating, 1, class: "form-check-input" %>

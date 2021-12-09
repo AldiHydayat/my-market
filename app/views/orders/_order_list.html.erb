@@ -22,6 +22,8 @@
           <br>
           <% if current_user.level == "buyer" && order.status == "order_successful" && od.is_reviewed == false %>
             <%= link_to 'Review Product', new_product_review_path(od.product, od: od.id) %>
+          <% elsif current_user.level == "buyer" && order.status == "order_successful" && od.is_reviewed == true %>
+            <%= link_to 'Show Review', product_review_path(od.product, od.review) %>
           <% end %>
         </div>
       </div>

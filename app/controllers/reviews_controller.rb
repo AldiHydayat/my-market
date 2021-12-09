@@ -1,7 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :set_product
-  before_action :set_order_detail, only: %i[new create]
-  before_action :check_order_detail, only: %i[new create]
+  before_action :set_order_detail, only: %i[new]
+  before_action :check_order_detail, only: %i[new]
+  before_action :set_review, only: %i[show update]
 
   def index
   end
@@ -11,7 +12,7 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(review_params)
-    if @review.review_product(@product, current_user, @order_detail.id)
+    if @review.review_product(@product, current_user)
       flash[:notice] = "Review Product Success"
       flash[:color] = "success"
       redirect_to my_order_orders_path
@@ -22,10 +23,28 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def show
+  end
+
+  def update
+    if @review.edit_review_product(review_params)
+      flash[:notice] = "Review Product Success"
+      flash[:color] = "success"
+    else
+      flash[:notice] = @review.errors.full_messages.first
+      flash[:color] = "danger"
+    end
+    redirect_to my_order_orders_path
+  end
+
   private
 
   def review_params
-    params.require(:review).permit(:rating, :comment)
+    params.require(:review).permit(:order_detail_id, :rating, :comment)
+  end
+
+  def set_review
+    @review = Review.find(params[:id])
   end
 
   def set_product
