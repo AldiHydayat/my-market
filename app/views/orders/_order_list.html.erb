@@ -18,7 +18,11 @@
         <div class="ms-3">
           <p class="fw-bold"><%= od.product_summary["name"] %></p>
           <p><%= od.quantity %> barang x <%= number_to_currency(od.product_summary["price"], unit: "Rp. ") %></p>
-          <%= link_to 'Lihat', summary_path(od) %>
+          <%= link_to 'Detail', summary_path(od) %>
+          <br>
+          <% if current_user.level == "buyer" && order.status == "order_successful" && od.is_reviewed == false %>
+            <%= link_to 'Review Product', new_product_review_path(od.product, od: od.id) %>
+          <% end %>
         </div>
       </div>
     </div>

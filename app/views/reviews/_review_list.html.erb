@@ -1,0 +1,18 @@
+<div class="container">
+  <% @product.reviews.each do |review| %>
+    <div class="row">
+      <div class="d-flex">
+        <div class="name">
+          <%= review.user.name %>
+          <br>
+          <small><%= review.created_at.to_formatted_s(:db) %></small>
+        </div>
+        <div class="review ms-3">
+          Rating <%= review.rating %>
+          <br>
+          <%= simple_format(review.comment) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

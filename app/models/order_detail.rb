@@ -8,6 +8,7 @@ class OrderDetail < ApplicationRecord
   validates :product_id, :quantity, presence: true
 
   scope :get_product_summary, ->(id) { find(id).product_summary }
+  scope :set_to_reviewed, ->(id) { find(id).update!(is_reviewed: true) }
 
   private
 

@@ -4,13 +4,15 @@
     <h5 class="card-title"><%= product.name %></h5>
     <p class="card-text">
       <% if product.discount > 0 %>
-        <p>
-          <%= discount_price(product.price, product.discount) %>
-          <br>
-          <strike><%= number_to_currency(product.price, unit: "Rp. ") %></strike> <%= "#{product.discount.to_i}% Discount" %>
-        </p>
+        <%= discount_price(product.price, product.discount) %>
+        <br>
+        <strike><%= number_to_currency(product.price, unit: "Rp. ") %></strike> <%= "#{product.discount.to_i}% Discount" %>
       <% else %>
         <%= number_to_currency(product.price, unit: "Rp. ") %>
+      <% end %>
+      <% if product.reviews_count > 0 %>
+        <br>
+        <small>Rating <%= "#{product.rating} (#{product.reviews_count})" %></small>
       <% end %>
     </p>
     <%= link_to 'Lihat Detail', product_path(product), class: "btn btn-primary btn-sm" %>

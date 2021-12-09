@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
   has_many :product_photos, dependent: :destroy
   has_many :categories, through: :product_categories
+  has_many :reviews, dependent: :destroy
   accepts_nested_attributes_for :product_categories, :product_photos, reject_if: :all_blank
 
   extend FriendlyId
@@ -41,6 +42,19 @@ class Product < ApplicationRecord
       unliked_by user
     else
       liked_by user
+    end
+  end
+
+  def calculate_avarage_rating
+    sum = 0
+    ratings_count = self.reviews_count
+    if ratings_count > 0
+      count_each_ratings = self.reviews.group(:rating).count
+      count_each_ratings.each { |key, val| sum += key * val }
+      avg = sum.to_f / ratings_count
+      self.update!(rating: avg.truncate(1))
+    else
+      self.update!(rating: 0)
     end
   end
 end

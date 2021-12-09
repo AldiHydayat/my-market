@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_083038) do
+ActiveRecord::Schema.define(version: 2021_12_09_021152) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_083038) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_reviewed", default: false
   end
 
   create_table "orders", charset: "utf8mb4", force: :cascade do |t|
@@ -110,7 +111,18 @@ ActiveRecord::Schema.define(version: 2021_12_08_083038) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.float "discount", default: 0.0
+    t.float "rating", default: 0.0
+    t.integer "reviews_count", default: 0
     t.index ["slug"], name: "index_products_on_slug", unique: true
+  end
+
+  create_table "reviews", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.integer "product_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
