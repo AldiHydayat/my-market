@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index]
   before_action :set_product
   before_action :set_order_detail, only: %i[new]
   before_action :check_order_detail, only: %i[new]

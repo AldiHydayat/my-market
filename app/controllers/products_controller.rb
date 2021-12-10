@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: %i[search]
+  before_action :authenticate_user!, except: %i[search show]
   before_action :admin_only, only: %i[index new create edit update destroy active_toggle]
   before_action :set_product, only: %i[show edit update destroy active_toggle wishlist_toggle]
   before_action :get_all_categories, only: %i[new create edit]

@@ -12,7 +12,7 @@
       <h5>Rating <%= @product.rating %> <%= "(#{@product.reviews_count})" %></h5>
     </div>
   <% end %>
-  <% if current_user.level == "buyer" %>
+  <% if user_signed_in? && current_user.level == "buyer" %>
     <%= render "discuss_form" %>
   <% end %>
   <hr class="my-4">
@@ -27,7 +27,7 @@
           <% discuss.replies.each do |reply| %>
             <%= render 'show_reply', discuss: discuss, reply: reply %>
           <% end %>
-          <% if discuss.user == current_user || current_user.level == "admin" %>
+          <% if user_signed_in? && (discuss.user == current_user || current_user.level == "admin") %>
             <%= render "reply_form", discuss: discuss %>
           <% end %>
         </div>

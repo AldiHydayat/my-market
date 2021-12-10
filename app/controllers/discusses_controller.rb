@@ -1,4 +1,5 @@
 class DiscussesController < ApplicationController
+  before_action :authenticate_user!, except: %i[index]
   before_action :set_product
   before_action :set_discuss, only: %i[destroy]
 
