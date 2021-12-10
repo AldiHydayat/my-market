@@ -30,5 +30,6 @@
     </div>
   <% end %>
   <p class="fw-bold">Total: <%= number_to_currency(order.total_price, unit: "Rp. ") %></p>
+  <%= link_to "Invoice", invoce_order_path(order) %>
   <hr class="my-4">
 <% end %>

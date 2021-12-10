@@ -1,0 +1,38 @@
+<div>
+  <div class="container">
+    <div class="row mb-3">
+      <%= link_to 'Cetak', invoce_order_path(@order, format: :pdf), class: "btn btn-success col-1" %>
+    </div>
+    <div class="row">
+      <p>
+        Pembeli: <%= @order.user.name %>
+        <br>
+        Tanggal: <%= @order.created_at.to_time.strftime('%B %e, %Y') %>
+      </p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price Per Item</th>
+          <th scope="col">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_details.each do |order_detail| %>
+          <tr>
+            <th><%= order_detail.product_summary["name"] %></th>
+            <td><%= order_detail.quantity %></td>
+            <td><%= number_to_currency(order_detail.product_summary["price"], unit: "Rp. ") %></td>
+            <td><%= number_to_currency(order_detail.quantity * order_detail.product_summary["price"], unit: "Rp. ") %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th colspan="3">Total</th>
+          <th><%= number_to_currency(@order.total_price, unit: "Rp. ") %></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

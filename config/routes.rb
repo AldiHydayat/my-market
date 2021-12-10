@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       put "confirm_order" => "orders#confirm_order"
       put "deliver_order" => "orders#deliver_order"
       put "order_succeed" => "orders#order_succeed"
+      get "invoce" => "orders#invoice"
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -2,7 +2,8 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :buyer_only, only: %i[create my_order checkout my_order order_succeed]
   before_action :admin_only, only: %i[index confirm_order deliver_order]
-  before_action :set_order, only: %i[summary confirm_order deliver_order order_succeed]
+  before_action :set_order, only: %i[summary confirm_order deliver_order order_succeed invoice]
+  before_action :owner_only, only: %i[invoice]
 
   def index
     @orders = Order.order(status: :asc, updated_at: :desc)
@@ -73,6 +74,17 @@ class OrdersController < ApplicationController
     redirect_to my_order_orders_path
   end
 
+  def invoice
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "Invoice",
+               page_size: "A4",
+               template: "orders/invoice.pdf.erb"
+      end
+    end
+  end
+
   private
 
   def order_params
@@ -87,7 +99,7 @@ class OrdersController < ApplicationController
 
   def buyer_only
     if current_user.level != "buyer"
-      flash[:flash] = "Access Denied"
+      flash[:notice] = "Access Denied"
       flash[:color] = "danger"
 
       redirect_back(fallback_location: root_path)
@@ -96,7 +108,7 @@ class OrdersController < ApplicationController
 
   def admin_only
     if current_user.level != "admin"
-      flash[:flash] = "Access Denied"
+      flash[:notice] = "Access Denied"
       flash[:color] = "danger"
 
       redirect_back(fallback_location: root_path)
@@ -105,5 +117,11 @@ class OrdersController < ApplicationController
 
   def set_order
     @order = Order.find(params[:id])
+  end
+
+  def owner_only
+    if @order.user != current_user
+      render "errors/not_found"
+    end
   end
 end
