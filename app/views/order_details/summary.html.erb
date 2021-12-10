@@ -1,4 +1,7 @@
 <div class="container">
+  <div class="alert alert-warning" role="alert">
+    Detail Product Pada Tanggal <strong><%= @order_detail.created_at.to_time.strftime('%B %e, %Y') %></strong>
+  </div>
   <%= link_to 'Lihat Produk', product_path(@summary["slug"]) %>
   <div class="row">
     <h3><%= @summary["name"] %></h3>
