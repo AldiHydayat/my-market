@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
     else
       flash[:notice] = "Edit Product Failed"
       flash[:color] = "danger"
-      redirect_to product_path(@product)
+      redirect_to edit_product_path(@product)
     end
   end
 

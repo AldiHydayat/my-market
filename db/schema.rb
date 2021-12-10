@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_080717) do
+ActiveRecord::Schema.define(version: 2021_12_10_022611) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -54,6 +54,15 @@ ActiveRecord::Schema.define(version: 2021_12_09_080717) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "discusses", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "user_id"
+    t.text "comment"
+    t.integer "discuss_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", force: :cascade do |t|

@@ -11,8 +11,9 @@ class User < ApplicationRecord
 
   acts_as_voter
 
-  has_many :carts
-  has_many :orders
+  has_many :carts, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_many :discusses, dependent: :destroy
   enum level: [:admin, :buyer], _default: "buyer"
 
   validates :name, :phone_number, :address, :level, presence: true

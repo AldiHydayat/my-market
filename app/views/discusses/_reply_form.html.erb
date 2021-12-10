@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-11 offset-1">
+    <%= form_for discuss.replies.build, url: reply_product_discuss_path(@product, discuss) do |f| %>
+      <%= f.hidden_field :discuss_id, value: discuss.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.text_area :comment, placeholder: "Isi Komentar", class: "form-control #{"is-invalid" if discuss.errors[:comment].present? }" %>
+      <div class="invalid-feedback">
+        <%= discuss.errors[:comment].first if discuss.errors[:comment].present? %>
+      </div>
+      <br>
+      <%= f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

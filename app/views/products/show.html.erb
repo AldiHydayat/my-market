@@ -12,6 +12,8 @@
       <h5>Rating <%= @product.rating %> <%= link_to "(#{@product.reviews_count} review)", product_reviews_path(@product) %></h5>
     </div>
   <% end %>
+  <%= link_to 'Discuss', product_discusses_path(@product) %>
+  <br>
   <% if user_signed_in? && current_user.level == "buyer" %>
     <%= link_to (fa_icon "heart") , wishlist_product_path(@product), class: current_user.liked?(@product) ? "text-danger" : "text-muted", alt: "add to wishlist", method: :put %>
   <% end %>

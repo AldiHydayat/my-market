@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <h3><%= @product.name %></h3>
+  </div>
+  <div class="row">
+    <% @product.product_photos.each.with_index do |pp, i| %>
+      <%= image_tag pp.photo_url, style: " width:200px; height:auto " %>
+    <% end %>
+  </div>
+  <% if @product.reviews_count > 0 %>
+    <div class="row">
+      <h5>Rating <%= @product.rating %> <%= "(#{@product.reviews_count})" %></h5>
+    </div>
+  <% end %>
+  <% if current_user.level == "buyer" %>
+    <%= render "discuss_form" %>
+  <% end %>
+  <hr class="my-4">
+  <div class="row">
+    <h4 class="">Discuss</h4>
+  </div>
+  <% @discusses.each do |discuss| %>
+    <div class="row">
+      <div class="d-flex flex-column">
+        <%= render 'show_discuss', discuss: discuss %>
+        <div class="reply-comment">
+          <% discuss.replies.each do |reply| %>
+            <%= render 'show_reply', discuss: discuss, reply: reply %>
+          <% end %>
+          <% if discuss.user == current_user || current_user.level == "admin" %>
+            <%= render "reply_form", discuss: discuss %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>

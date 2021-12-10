@@ -10,6 +10,11 @@ Rails.application.routes.draw do
 
   resources :products, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
     resources :reviews, except: %i[destroy]
+    resources :discusses, only: [:index, :create, :destroy] do
+      member do
+        post "reply" => "discusses#create_reply"
+      end
+    end
 
     member do
       put "active" => "products#active_toggle"

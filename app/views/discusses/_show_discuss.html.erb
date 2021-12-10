@@ -1,0 +1,10 @@
+<div class="header d-flex align-items-center justify-content-between">
+  <div>
+    <span><%= discuss.user.name %></span>
+    <small class="text-secondary ms-3"><%= discuss.created_at.to_time.strftime('%B %e, %Y') %></small>
+  </div>
+  <%= (link_to 'Hapus', product_discuss_path(@product, discuss), method: :delete, data: { confirm: "are you sure?" }) if discuss.user == current_user %>
+</div>
+<div class="comment">
+  <%= simple_format(discuss.comment) %>
+</div>

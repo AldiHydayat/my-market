@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   has_many :product_photos, dependent: :destroy
   has_many :categories, through: :product_categories
   has_many :reviews, dependent: :destroy
+  has_many :discusses, dependent: :destroy
   accepts_nested_attributes_for :product_categories, :product_photos, reject_if: :all_blank
 
   extend FriendlyId

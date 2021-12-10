@@ -13,7 +13,7 @@
     <div class="jumbotron">
       <div class="d-flex align-items-center">
         <p class="lead">
-          <%= image_tag od.product.product_photos.first.photo_url %>
+          <%= image_tag od.product_summary["photos"].first %>
         </p>
         <div class="ms-3">
           <p class="fw-bold"><%= od.product_summary["name"] %></p>
