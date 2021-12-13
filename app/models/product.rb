@@ -19,7 +19,6 @@ class Product < ApplicationRecord
   validates_presence_of :product_photos
   validates_presence_of :product_categories
 
-  scope :search_products, ->(keyword) { where("name like ? and is_active = ?", "%#{keyword}%", true) }
   scope :active_products, -> { where(is_active: true) }
 
   def is_active_toggle

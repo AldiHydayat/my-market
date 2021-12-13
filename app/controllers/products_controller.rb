@@ -56,9 +56,8 @@ class ProductsController < ApplicationController
   end
 
   def search
-    redirect_to root_path if params[:keyword].blank?
-
-    @products = Product.search_products(params[:keyword])
+    @q = Product.search(params[:q])
+    @products = @q.result.where(is_active: true)
   end
 
   def wishlist_toggle

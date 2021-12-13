@@ -16,9 +16,9 @@
           <%= render 'layouts/nav_menu' %>
         <% end %>
       </ul>
-      <%= form_tag search_path, method: :get, class: "d-flex me-2"  do %>
-        <%= text_field_tag :keyword, nil, class: "form-control me-2" %>
-        <%= button_tag "Search", class: "btn btn-outline-success" %>
+      <%= search_form_for @q, url: search_path, class: "d-flex me-2" do |f| %>
+        <%= f.search_field :name_cont, class: "form-control me-2" %>
+        <%= f.submit "Search", class: "btn btn-outline-success" %>
       <% end %>
       <% if user_signed_in? %>
         <%= link_to 'Keluar', destroy_user_session_path, method: :delete, class: "btn btn-outline-primary rounded-pill" %>
