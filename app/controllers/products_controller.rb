@@ -56,7 +56,6 @@ class ProductsController < ApplicationController
   end
 
   def search
-    @q = Product.search(params[:q])
     @products = @q.result.where(is_active: true)
   end
 
